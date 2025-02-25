@@ -46,6 +46,8 @@ for (let y = 0; y < BOARD_SIZE; y++) {
     }
 
    }
+
+   generateObstacles(newBoard);
     
    return newBoard;
 
@@ -62,6 +64,8 @@ for (let y = 0; y< BOARD_SIZE; y++){
     for (let x= 0; x < BOARD_SIZE; x++){
         const cell = document.createElement('div');
         cell.classList.add('cell'); 
+        cell.style.width = cellSize + "px";
+        cell.style.height = cellSize + "px";
 
         if (getCell(board, x, y) === 'W') {
             cell.classList.add('wall')
@@ -73,4 +77,28 @@ for (let y = 0; y< BOARD_SIZE; y++){
 }
 
 }
+
+function generateObstacles(board){
+    const obstacles = [
+        [[0,0], [0,1], [1,0], [1,1]] // neliö
+    ];
+
+    const positions = [
+      {startX: 5, startY: 7},
+      {startX: 10, startY: 10}
+    ];
+
+    positions.forEach( pos => {
+       
+        const randomObstacle = obstacles[0];
+
+        for(coordinatePair of randomObstacle){
+            [x,y] = coordinatePair;
+            board[pos.startY + y][pos.startX + x] = "W";
+        }
+    });
+
+}
+
+
 
