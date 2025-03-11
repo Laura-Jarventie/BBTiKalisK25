@@ -6,7 +6,6 @@ const cellSize = calculateCellSize();
 
 document.getElementById("new-game-btn").addEventListener('click', startGame);
 
-//JÄÄTIIN TÄHÄN ELI RESPOSIIN
 function calculateCellSize(){
 // Otetaan talteen pienempi luku ikkunan leveydestä ja korkeudesta
   const screenSize = Math.min(window.innerWidth, window.innerHeight);
@@ -37,20 +36,19 @@ function generateRandomBoard(){
 
     console.log(newBoard);
 
-// set walls in edges
-for (let y = 0; y < BOARD_SIZE; y++) {
+    // set walls in edges
+    for (let y = 0; y < BOARD_SIZE; y++) {
 
     for (let x = 0; x < BOARD_SIZE; x++) {
      if (y === 0 || y === BOARD_SIZE - 1 || x === 0 || x === BOARD_SIZE - 1) {
      newBoard[y][x] = 'W'; //W is wall
      }
     }
-
    }
 
-   generateObstacles(newBoard);
+   newBoard[6][7] = 'P'; // P is player
 
-   
+   generateObstacles(newBoard);
     
    return newBoard;
 
@@ -74,6 +72,10 @@ for (let y = 0; y< BOARD_SIZE; y++){
             cell.classList.add('wall')
         }
 
+        else if (getCell(board, x, y)=== 'P') {
+            cell.classList.add('player')
+        }
+
         gameBoard.appendChild(cell);
         
     }
@@ -82,16 +84,23 @@ for (let y = 0; y< BOARD_SIZE; y++){
 }
 
 function generateObstacles(board){
+
     const obstacles = [
         [[0,0], [0,1], [1,0], [1,1]], // neliö
         [[0,0], [0,1], [0,2], [0,3]],// I
-        [[0,0], [1,0], [2,0], [1,1]]
+        [[0,0], [1,0], [2,0], [1,1]], //T
+        [[1,0],[2,0],[1,1],[0,2],[1,2]], // Z
+        [[1,0],[2,0],[0,1],[1,1]], // S
+        [[0,0],[1,0],[1,1],[1,2]], // L
+        [[0,2],[0,1],[1,1],[2,1]]  // J
     ];
 
     const positions = [
       {startX: 5, startY: 7},
       {startX: 10, startY: 10},
-      {startX: 2, startY: 2}
+      {startX: 2, startY: 2},
+      {startX: 4, startY: 10},
+      {startX: 10, startY: 4}
     ];
 
     positions.forEach( pos => {
