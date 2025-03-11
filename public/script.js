@@ -3,6 +3,7 @@ let board; //kenttä talennetaan tähän
 const cellSize = calculateCellSize();
 
 
+
 document.getElementById("new-game-btn").addEventListener('click', startGame);
 
 //JÄÄTIIN TÄHÄN ELI RESPOSIIN
@@ -48,6 +49,8 @@ for (let y = 0; y < BOARD_SIZE; y++) {
    }
 
    generateObstacles(newBoard);
+
+   
     
    return newBoard;
 
@@ -80,17 +83,20 @@ for (let y = 0; y< BOARD_SIZE; y++){
 
 function generateObstacles(board){
     const obstacles = [
-        [[0,0], [0,1], [1,0], [1,1]] // neliö
+        [[0,0], [0,1], [1,0], [1,1]], // neliö
+        [[0,0], [0,1], [0,2], [0,3]],// I
+        [[0,0], [1,0], [2,0], [1,1]]
     ];
 
     const positions = [
       {startX: 5, startY: 7},
-      {startX: 10, startY: 10}
+      {startX: 10, startY: 10},
+      {startX: 2, startY: 2}
     ];
 
     positions.forEach( pos => {
        
-        const randomObstacle = obstacles[0];
+        const randomObstacle = obstacles[Math.floor(Math.random() * obstacles.length)];
 
         for(coordinatePair of randomObstacle){
             [x,y] = coordinatePair;
