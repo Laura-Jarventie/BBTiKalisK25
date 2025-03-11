@@ -29,6 +29,10 @@ function getCell(board, x, y) {
     return board[y][x];
 }
 
+function setCell(board, x, y, value){
+    board [y][x] = value;
+}
+
 function generateRandomBoard(){
 
     const newBoard = Array.from({ length: BOARD_SIZE}, () =>
@@ -46,7 +50,8 @@ function generateRandomBoard(){
     }
    }
 
-   newBoard[6][7] = 'P'; // P is player
+   const [playerX, playerY] = randomEmptyPosition(newBoard);
+   setCell(newBoard, playerX, playerY, 'P');
 
    generateObstacles(newBoard);
     
@@ -113,6 +118,22 @@ function generateObstacles(board){
         }
     });
 
+}
+
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+   }
+
+function randomEmptyPosition(board){
+
+    x = randomInt(1, BOARD_SIZE -2);
+    y = randomInt(1, BOARD_SIZE - 2);
+
+    if (getCell(board, x, y) === '') {
+        return [x, y];
+    } else  {
+        return randomEmptyPosition(board);
+    }
 }
 
 
