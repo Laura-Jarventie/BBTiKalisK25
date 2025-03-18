@@ -36,7 +36,8 @@ function setCell(board, x, y, value){
 function generateRandomBoard(){
 
     const newBoard = Array.from({ length: BOARD_SIZE}, () =>
-        Array.apply(BOARD_SIZE).fill(' '));
+    //TÄSSÄ VIRHE ALLA OIKEIN: Array.apply(BOARD_SIZE).fill(' '));
+    Array(BOARD_SIZE).fill(' '));
 
     console.log(newBoard);
 
@@ -50,10 +51,12 @@ function generateRandomBoard(){
     }
    }
 
-   const [playerX, playerY] = randomEmptyPosition(newBoard);
-   setCell(newBoard, playerX, playerY, 'P');
+  
 
    generateObstacles(newBoard);
+
+   const [playerX, playerY] = randomEmptyPosition(newBoard);
+   setCell(newBoard, playerX, playerY, 'P');
     
    return newBoard;
 
@@ -83,8 +86,8 @@ for (let y = 0; y< BOARD_SIZE; y++){
 
         gameBoard.appendChild(cell);
         
+       }
     }
-}
 
 }
 
@@ -124,16 +127,20 @@ function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
    }
 
+
 function randomEmptyPosition(board){
 
-    x = randomInt(1, BOARD_SIZE -2);
-    y = randomInt(1, BOARD_SIZE - 2);
+    x = randomInt(1, BOARD_SIZE - 2);
+    y = randomInt(1, BOARD_SIZE -  2);
 
-    if (getCell(board, x, y) === '') {
+    if (getCell(board, x, y) === ' ') {
         return [x, y];
-    } else  {
+    } 
+    
+    else  {
         return randomEmptyPosition(board);
-    }
+    } 
+    
 }
 
 
