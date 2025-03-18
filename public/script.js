@@ -1,10 +1,29 @@
 let BOARD_SIZE = 15;
 let board; //kenttä talennetaan tähän
 const cellSize = calculateCellSize();
+let player;
 
 
 
 document.getElementById("new-game-btn").addEventListener('click', startGame);
+
+document.addEventListener('keydown', (event) => {
+    switch (event.key){
+        case 'ArrowUp':
+        player.move(0, -1); 
+        break;
+        case 'ArrowDown':
+        player.move(0, 1); 
+        break;
+        case 'ArrowLeft':
+        player.move(-1, 0); 
+        break;
+        case 'ArrowRight':
+        player.move(1, 0); 
+        break;
+    }
+    event.preventDefault();
+} );
 
 function calculateCellSize(){
 // Otetaan talteen pienempi luku ikkunan leveydestä ja korkeudesta
@@ -23,6 +42,7 @@ function startGame(){
 
     board = generateRandomBoard();
     drawBoard(board);
+    player = new Player(0,0);
 }
 
 function getCell(board, x, y) {
@@ -141,6 +161,37 @@ function randomEmptyPosition(board){
         return randomEmptyPosition(board);
     } 
     
+}
+
+class Player {
+    constructor(x, y){
+        this.x = x;
+        this.y = y;
+    }
+
+    move(deltaX, deltaY){
+        
+        // tallennetaan nykyiset koordinaatit muuttujiin
+        const currentX = player.x;
+        const currentY = player.y;
+       
+        console.log('nykyinen sijainti:')
+        console.log(currentX,currentY);
+
+        //lasketaan uusi sijainti
+        const newX = currentX + deltaX;
+        const newY = currentY + deltaY;
+
+        //pelaajan uusi sijainti
+        player.x = newX;
+        player.y = newY;
+
+        console.log('uusi sijainti:')
+
+        console.log(newX,newY);
+
+    }
+
 }
 
 
