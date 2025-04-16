@@ -253,6 +253,47 @@ class Ghost {
         this.x = x;
         this.y = y;
     }
+    moveGhostTowardsPlayer(player, board){
+        let dx = player.x - this.x;
+        let dy = player.y - this.y;
+
+        let moves = [];
+
+        if(Math.abs(dx) > Math.abs(dy)){
+            if(dx > 0)
+                moves.push({ x: this.x + 1, y: this.y}) //oikea
+            else
+                moves.push({ x: this.x - 1, y: this.y})//vasen
+            if(dy > 0)
+                moves.push({ x: this.x, y: this.y + 1})//alas
+            else
+                moves.push({ x: this.x, y: this.y- 1})//ylös
+        }
+        else{
+            if(dy > 0)
+                moves.push({ x: this.x, y: this.y + 1})//alas
+            else
+                moves.push({ x: this.x, y: this.y- 1})//ylös
+            if(dx > 0)
+                moves.push({ x: this.x + 1, y: this.y})//oikea
+            else
+                moves.push({ x: this.x - 1, y: this.y})//vasen
+        }
+
+        const validNewPositions = moves.filter(newPosition =>
+            newPosition.x >= 0 && newPosition.x < BOARD_SIZE &&
+            newPosition.y >= 0 && newPosition.y < BOARD_SIZE &&
+            board[newPosition.y][newPosition.x] === ' ' // Tarkista, että ruutu on tyhjä
+        );
+
+        if(validNewPositions.length === 0){
+           return {x: this.x, y: this.y};
+        }
+
+        for(let move of validNewPositions){
+            return move;
+        }
+    }
 }
 
 
@@ -287,7 +328,13 @@ function moveGhosts(){
 
     ghosts.forEach(ghost => {
 
-        // määrittelee mahdolliset uudet paikat    
+        const newPosition = ghost.moveGhostTowardsPlayer(player, board);
+
+        ghost.x = newPosition.x;
+        ghost.y = newPosition.y;
+        
+        /* vanha liikkuminen
+        // määrittelee kyseiselle haamulle mahdolliset uudet paikat    
         const possibleNewPositions = [
             { x: ghost.x, y: ghost.y - 1 }, // Ylös
             { x: ghost.x, y: ghost.y + 1 }, // Alas
@@ -311,6 +358,7 @@ function moveGhosts(){
             ghost.x = randomNewPosition.x;
             ghost.y = randomNewPosition.y;
         }
+        */
 
         setCell(board, ghost.x, ghost.y, 'H');
 
