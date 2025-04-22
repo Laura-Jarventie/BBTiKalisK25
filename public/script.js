@@ -378,6 +378,7 @@ function moveGhosts(){
             endGame()
             return;
         }
+        
     });
 
     oldGhosts.forEach( ghost => {
