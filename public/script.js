@@ -374,6 +374,10 @@ function moveGhosts(){
 
         setCell(board, ghost.x, ghost.y, 'H');
 
+        if (ghost.x === player.x && ghost.y === player.y){
+            endGame()
+            return;
+        }
     });
 
     oldGhosts.forEach( ghost => {
@@ -386,6 +390,15 @@ function moveGhosts(){
         board[ghost.y][ghost.x] = 'H';
     });
 
+  
+
     drawBoard(board);
 
+}
+
+function endGame(){
+    alert('GAME OVER!')
+
+    document.getElementById("intro-screen").style.display = 'block';
+    document.getElementById("game-screen").style.display = 'none';
 }
