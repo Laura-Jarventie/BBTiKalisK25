@@ -4,12 +4,16 @@ const cellSize = calculateCellSize();
 let player;
 let ghosts = []; // haamulista 
 let ghostSpeed = 1000; 
+let isGameRunning = false;
+let ghostInterval;
+
 
 
 
 document.getElementById("new-game-btn").addEventListener('click', startGame);
 
 document.addEventListener('keydown', (event) => {
+    if (isGameRunning){ 
     switch (event.key){
         case 'ArrowUp':
         player.move(0, -1); 
@@ -35,7 +39,7 @@ document.addEventListener('keydown', (event) => {
         case 'd':
         shootAt(player.x + 1, player.y);
         break;
-    }
+    }}
     event.preventDefault();
 } );
 
@@ -54,10 +58,12 @@ function startGame(){
     document.getElementById("intro-screen").style.display = 'none';
     document.getElementById("game-screen").style.display = 'block';
 
+    isGameRunning = true;
+
     player = new Player(0,0);
     board = generateRandomBoard();
 
-    setInterval(moveGhosts, ghostSpeed);
+    ghostInterval = setInterval(moveGhosts, ghostSpeed);
 
     drawBoard(board);
     
@@ -398,8 +404,9 @@ function moveGhosts(){
 }
 
 function endGame(){
+    isGameRunning = false;
     alert('GAME OVER!')
-
+    clearInterval(ghostInterval);
     document.getElementById("intro-screen").style.display = 'block';
     document.getElementById("game-screen").style.display = 'none';
 }
