@@ -6,11 +6,17 @@ let ghosts = []; // haamulista
 let ghostSpeed = 1000; 
 let isGameRunning = false;
 let ghostInterval;
+let score = 0;
 
 
 
 
 document.getElementById("new-game-btn").addEventListener('click', startGame);
+
+function updateScoreBoard(){
+    const scoreBoard = document.getElementById('score-board')
+    scoreBoard.textContent = `Pisteet: ${score}`; 
+}
 
 document.addEventListener('keydown', (event) => {
     if (isGameRunning){ 
@@ -64,6 +70,9 @@ function startGame(){
     board = generateRandomBoard();
 
     ghostInterval = setInterval(moveGhosts, ghostSpeed);
+
+    score = 0;
+    updateScoreBoard(0);
 
     drawBoard(board);
     
